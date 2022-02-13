@@ -17,11 +17,11 @@ install.packages(c("dplyr", "ggforce", "gghighlight",
 library(ggplot2)
 
 #####################################################
-# SET THE FOLLOWING TO YOUR WORKING DIRECTORY
-#setwd("/Users/myusername/directory/subdirectory/")
-setwd("~/Users/username/Documents/directory/")
+# b. SET THE FOLLOWING TO YOUR WORKING DIRECTORY
+setwd("~/Desktop/127P")
 
-# Read in csv file from Gaia archive, the basic file dat
+
+# c. Read in csv file from Gaia archive, the basic file dat
 # read.csv creates a data frame with rows=observations
 # and columns = variables
 dat = read.csv("NearbyStars.csv")
@@ -42,7 +42,7 @@ str(dat)
 
 ###########################################################
 # INSERT A NUMBER OR EXPRESSION BETWEEN THE PARENTHESES BELOW 
-dat$Distancepc = (XXX)/(dat$parallax)
+dat$Distancepc = (1000)/(dat$parallax)
 
 # Since we know the distance, we know the absolute
 # magnitude, no? Modify the expression below to 
@@ -52,7 +52,7 @@ dat$Distancepc = (XXX)/(dat$parallax)
 ##########################################################
 # SUBSTITUTE FOR THE XXXs IN THE FOLLOWING & CHECK DAT
 dat$Magnitude = dat$phot_g_mean_mag +
-  - XXX * log10(dat$Distancepc/XXX)
+  - 5 * log10(dat$Distancepc/10)
 
 # An initial plot. We'll plot bp_rp, which is blue
 # minus red Gaia color, vs Magnitude, which you just
@@ -77,12 +77,12 @@ ggplot(data = dat, aes(x=bp_rp, y=Magnitude)) +
 # INPUT VALUES FOR XXX AND AXIS LABELS
 ggplot(data = dat, aes(x=bp_rp, y=Magnitude)) +
   geom_point(alpha = 1 / 3) +
-  ylim(c(XXX,XXX)) + 
-  xlim(c(XXX,XXX)) +
- xlab("YOUR X-AXIS LABEL") +
-  ylab("YOUR Y-AXIS LABEL")
+  ylim(c(11.6, 3)) +
+  xlim(c(0.6,2.75)) +
+ xlab("BP-RP") +
+  ylab("Absolute Magnitude")
 
-### SEPARATING CLASSES #####
+ ### SEPARATING CLASSES #####
 
 # Next, we'll label main sequence and white dwarfs to
 # distinguish them, and separate main sequence classes.
@@ -126,10 +126,10 @@ whitedwarfs = subset(dat, classif == "WD")
 # INSERT VALUES FOR X, Y LIMITS AND AXIS LABELS
 ggplot(data = whitedwarfs, aes(x=bp_rp, y=Magnitude)) +
   geom_point(alpha = 1 / 3, pch=10) +
-  ylim(c(XXX,XXX)) + 
-  xlim(c(XXX,XXX))+
-  xlab("XXX") +
-  ylab("XXX")
+  ylim(c(17, 10)) + 
+  xlim(c(-0.5,1.5))+
+  xlab("BP-RP") +
+  ylab("Absolute Magnitude") + ggtitle("White Dwarf")
 
 # Plot the main sequence
 
@@ -137,10 +137,10 @@ ggplot(data = whitedwarfs, aes(x=bp_rp, y=Magnitude)) +
 # INSERT VALUES FOR X, Y LIMITS AND AXIS LABELS
 ggplot(data = mainseq, aes(x=bp_rp, y=Magnitude)) +
   geom_point(alpha = 1 / 3) +
-  ylim(c(XXX,XXX)) + 
-  xlim(c(XXX,XXX))+
-  xlab("XXX") +
-  ylab("XXX")
+  ylim(c(17.5, 2)) + 
+  xlim(c(0,5.3))+
+  xlab("BP-RP") +
+  ylab("Absolute Magnitude") + ggtitle("Main Sequence Stars")
 
 # Let's plot the entire sample, and this time
 # let's use color to separate the classes
@@ -152,13 +152,19 @@ ggplot(data = mainseq, aes(x=bp_rp, y=Magnitude)) +
 starplot = ggplot(data = dat, aes(x=bp_rp, y=Magnitude)) 
 starplot = starplot +
   geom_point(aes(color=classif), alpha=0.5) +
-  ylim(c(XXX,XXX)) + 
-  xlim(c(XXX,XXX)) +
-  xlab("YOUR X LABEL") +
-  ylab("YOUR Y LABEL") +
-  ggtitle("Nearby Stars < XXX pc")  +
-  scale_color_brewer(palette="XXX")
-starplot
+  ylim(c(23, 2)) + 
+  xlim(c(-0.5,5.3)) +
+  xlab("BP-RP") +
+  ylab("Absolute Magnitude") +
+  ggtitle("Nearby Stars < 14.28 pc")  +
+  scale_colour_manual(values=c("#4F87C3","#56BAE9","#FAEE50", "#D0373E", "#E5983E", "#FFFFFF"))
+starplot + theme(panel.background = element_rect(fill = "#282828"),
+                 #panel.grid.major = element_line(size = 0.2, colour = "#5B5B5B"),
+                 #panel.grid.minor = element_line(size = 0.2, colour = "#5B5B5B"),
+                 panel.grid.major = element_blank(),
+                 panel.grid.minor = element_blank(),
+                 plot.title = element_text(hjust = 0.5))
+  
 
 ############################################################
 # SAVE THIS PLOT#1
