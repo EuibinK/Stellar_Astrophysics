@@ -172,7 +172,7 @@ starplot + theme(panel.background = element_rect(fill = "#282828"),
 
 ####  ANALYSIS ######
 # First, let's consider the distribution in distance, and
-# the mean density of stars.
+# the mean density of stars.q
 
 # Histograms can also be done with ggplot2 but
 # hist() is easy to remember
